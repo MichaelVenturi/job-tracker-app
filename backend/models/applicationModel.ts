@@ -7,17 +7,24 @@ enum Status {
   IN_PROGRESS = "In progress",
 }
 interface IApplication extends Document<Types.ObjectId> {
+  user: Types.ObjectId;
   jobTitle: string;
   companyName: string;
-  dateApplied: Date;
   link: string;
   location: string;
   status: Status;
   notes?: string;
+  updatedAt: Date;
+  dateApplied: Date;
 }
 
 const applicationSchema = new mongoose.Schema<IApplication>(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     jobTitle: {
       type: String,
       required: [true, "please add a job title"],
@@ -25,10 +32,6 @@ const applicationSchema = new mongoose.Schema<IApplication>(
     companyName: {
       type: String,
       required: [true, "Please add a company name"],
-    },
-    dateApplied: {
-      type: Date,
-      required: [true, "Please add the date you applied"],
     },
     link: {
       type: String,
@@ -49,11 +52,21 @@ const applicationSchema = new mongoose.Schema<IApplication>(
     },
   },
   {
-    timestamps: true,
+    timestamps: {
+      createdAt: "dateApplied",
+    },
   }
 );
 
+applicationSchema.set("toJSON", {
+  transform: (_doc, ret) => {
+    delete ret.__v;
+    return ret;
+  },
+});
+
 const Application = mongoose.model<IApplication>("Application", applicationSchema);
+
 export type ApplicationType = InferSchemaType<typeof applicationSchema>;
 
 export default Application;
