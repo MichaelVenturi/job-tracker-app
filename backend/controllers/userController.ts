@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import asynchHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/userModel";
-import { rawListeners } from "process";
+import User, { UserType } from "../models/userModel";
 
 interface CreateUserRequest {
   name: string;
@@ -53,7 +52,7 @@ export const registerUser = asynchHandler(
   }
 );
 
-export const loginUser = asynchHandler(async (req: Request, res: Response) => {
+export const loginUser = asynchHandler(async (req: Request, res: Response<CreateUserResponse>) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -70,11 +69,7 @@ export const loginUser = asynchHandler(async (req: Request, res: Response) => {
   }
 });
 
-export const getMe = asynchHandler(async (req: Request, res: Response) => {
-  if (!res.locals.user) {
-    res.status(401);
-    throw new Error("Nope");
-  }
+export const getMe = asynchHandler(async (_req, res: Response<UserType>) => {
   res.status(200).json(res.locals.user);
 });
 

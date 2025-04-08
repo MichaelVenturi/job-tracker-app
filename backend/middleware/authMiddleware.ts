@@ -12,11 +12,13 @@ export const protect: RequestHandler = asyncHandler(
       try {
         token = req.headers.authorization?.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-        const user = await User.findById((<{ id: string }>decoded).id).select("-password -__v");
-        if (user) {
-          res.locals.user = user;
+        const user = await User.findById((<{ id: string }>decoded).id);
+        if (!user) {
+          res.status(401);
+          throw new Error("User not found");
         }
 
+        res.locals.user = user.toJSON();
         next();
       } catch (err) {
         console.log(err);

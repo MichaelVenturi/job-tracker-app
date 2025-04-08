@@ -1,17 +1,23 @@
 import { Router } from "express";
 import { protect } from "../middleware/authMiddleware";
-import { getApplications, createApplication } from "../controllers/applicationController";
+import { validateParams } from "../middleware/ValidateParams";
+import {
+  getApplications,
+  createApplication,
+  getAppById,
+  updateApplication,
+  deleteApplication,
+} from "../controllers/applicationController";
 
-// api/apps
+// /api/apps
 const router = Router();
 
-router.route("/").get(protect, getApplications).post(protect, createApplication);
+// middleware
+router.use("/:appId", validateParams("appId"));
+router.use(protect);
 
-router
-  .route("/:appId")
-  .get(protect, () => {})
-  .post(protect, () => {})
-  .put(protect, () => {})
-  .delete(protect, () => {});
+router.route("/").get(getApplications).post(createApplication);
+
+router.route("/:appId").get(getAppById).put(updateApplication).delete(deleteApplication);
 
 export default router;

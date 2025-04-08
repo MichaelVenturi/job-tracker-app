@@ -27,6 +27,14 @@ const userSchema = new mongoose.Schema<IUser>(
   }
 );
 
+userSchema.set("toJSON", {
+  transform: (_doc, ret) => {
+    delete ret.__v;
+    delete ret.password;
+    return ret;
+  },
+});
+
 const User = mongoose.model<IUser>("User", userSchema);
 export type UserType = InferSchemaType<typeof userSchema>;
 
