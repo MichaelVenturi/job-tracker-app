@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 const Home = () => {
   return (
-    <div className="text-center">
+    <div className="text-center min-w-5xl">
       <h1 className="text-4xl font-bold">Welcome to the job tracker</h1>
       <hr className="my-5" />
       <p>
