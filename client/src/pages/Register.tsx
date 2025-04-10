@@ -82,15 +82,15 @@ const Register = () => {
 
   return (
     <div className="text-center w-full">
-      <h1 className="text-4xl font-bold">Register</h1>
+      <h1 className="md:text-4xl text-2xl font-bold">Register</h1>
       <hr className="my-5 w-[80%] m-auto" />
-      <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
-        <div className="flex md:flex-row flex-col w-[75%] my-5 gap-2 justify-center items-center">
+      <form onSubmit={onSubmit} className="lg:flex flex-col items-center justify-center">
+        <div className="flex lg:flex-row flex-col lg:w-[75%] my-5 gap-2 justify-center items-center">
           <input
             type="text"
             id="username"
             name="username"
-            className={`input input-lg input-${formValid.username ? "success" : "error"}`}
+            className={`input input-lg md:w-[50%] input-${formValid.username ? "success" : "error"}`}
             placeholder="username"
             value={formData.username}
             onChange={onChange}
@@ -101,19 +101,19 @@ const Register = () => {
             type="email"
             id="email"
             name="email"
-            className={`input input-lg input-${formValid.email ? "success" : "error"}`}
+            className={`input input-lg md:w-[50%] input-${formValid.email ? "success" : "error"}`}
             placeholder="email address"
             value={formData.email}
             onChange={onChange}
             required
           />
         </div>
-        <div className="flex md:flex-row flex-col w-[75%] my-5 gap-2 justify-center items-center">
+        <div className="flex lg:flex-row flex-col lg:w-[75%] my-5 gap-2 justify-center items-center">
           <input
             type="password"
             id="password"
             name="password"
-            className={`input input-lg input-${formValid.password ? "success" : "error"}`}
+            className={`input input-lg md:w-[50%] input-${formValid.password ? "success" : "error"}`}
             placeholder="password"
             value={formData.password}
             onChange={onChange}
@@ -123,7 +123,7 @@ const Register = () => {
             type="password"
             id="checkPassword"
             name="checkPassword"
-            className={`input input-lg input-${formValid.checkPassword ? "success" : "error"}`}
+            className={`input input-lg md:w-[50%] input-${formValid.checkPassword ? "success" : "error"}`}
             placeholder="repeat password"
             value={formData.checkPassword}
             onChange={onChange}
@@ -132,7 +132,7 @@ const Register = () => {
         </div>
         <button
           type="submit"
-          className="btn btn-success btn-lg md:w-[50%] w-[25%] my-5"
+          className="btn btn-success btn-lg w-[50%] my-5"
           disabled={Object.values(formData).some((i: string) => i.trim().length < 1)}>
           Register
         </button>

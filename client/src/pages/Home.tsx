@@ -3,7 +3,7 @@ const Home = () => {
   // todo: change home message to be personalized if user is logged in
   return (
     <div className="text-center w-full">
-      <h1 className="md:text-4xl font-bold">Welcome to the job tracker</h1>
+      <h1 className="md:text-4xl text-2xl font-bold">Welcome to the job tracker</h1>
       <hr className="my-5 w-[80%] m-auto" />
       <p className="max-w-[80%] m-auto">
         Use this site to record logs of the jobs you have applied to, which ones have responded, and which ones have (sadly) rejected you.
