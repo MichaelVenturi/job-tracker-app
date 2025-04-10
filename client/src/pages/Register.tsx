@@ -1,32 +1,141 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+interface IFormData {
+  username: string;
+  email: string;
+  password: string;
+  checkPassword: string;
+}
+
+interface IFormValidation {
+  username: boolean;
+  email: boolean;
+  password: boolean;
+  checkPassword: boolean;
+}
+
 const Register = () => {
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState<IFormData>({
+    username: "",
+    email: "",
+    password: "",
+    checkPassword: "",
+  });
+  const [formValid, setFormValid] = useState<IFormValidation>({
+    username: true,
+    email: true,
+    password: true,
+    checkPassword: true,
+  });
 
-  const onChange = (e) => {};
+  const navigate = useNavigate();
 
-  const onSubmit = (e) => {};
+  const validate = (): boolean => {
+    let valid = true;
+    if (formData.username.length < 4) {
+      toast.error("Username must be at least 4 characters");
+      valid = false;
+      setFormValid((p) => ({
+        ...p,
+        username: false,
+      }));
+    } else {
+      setFormValid((p) => ({
+        ...p,
+        username: true,
+      }));
+    }
+    if (formData.password !== formData.checkPassword) {
+      toast.error("Passwords must match");
+      valid = false;
+      setFormValid((p) => ({
+        ...p,
+        password: false,
+        checkPassword: false,
+      }));
+    } else {
+      setFormValid((p) => ({
+        ...p,
+        password: true,
+        checkPassword: true,
+      }));
+    }
+    return valid;
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    console.log(formData);
+    if (validate()) {
+      navigate("/");
+    }
+  };
 
   return (
     <div className="text-center min-w-5xl">
       <h1 className="text-4xl font-bold">Register</h1>
       <hr className="my-5" />
-      <form className="flex flex-col items-center justify-center">
-        <div className="flex flex-row w-[75%] my-5 gap-2 justify-center">
-          <input type="text" id="name" className="input input-success input-lg" placeholder="username" />
-          <input type="email" id="email" className="input input-success input-lg" placeholder="email address" />
-        </div>
-        <div className="flex flex-row w-[75%] my-5 gap-2 justify-center">
-          <input type="password" id="password" className="input input-success input-lg" placeholder="password" />
+      <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
+        <div className="flex md:flex-row flex-col w-[75%] my-5 gap-2 justify-center items-center">
           <input
-            type="password"
-            id="password2"
-            className="input input-success input-lg"
-            placeholder="repeat password"
+            type="text"
+            id="username"
+            name="username"
+            className={`input input-lg input-${formValid.username ? "success" : "error"}`}
+            placeholder="username"
+            value={formData.username}
+            onChange={onChange}
+            required
+            autoComplete="off"
+          />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className={`input input-lg input-${formValid.email ? "success" : "error"}`}
+            placeholder="email address"
+            value={formData.email}
+            onChange={onChange}
+            required
           />
         </div>
-        <button className="btn btn-success btn-lg w-[50%] my-5">Register</button>
+        <div className="flex md:flex-row flex-col w-[75%] my-5 gap-2 justify-center items-center">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className={`input input-lg input-${formValid.password ? "success" : "error"}`}
+            placeholder="password"
+            value={formData.password}
+            onChange={onChange}
+            required
+          />
+          <input
+            type="password"
+            id="checkPassword"
+            name="checkPassword"
+            className={`input input-lg input-${formValid.checkPassword ? "success" : "error"}`}
+            placeholder="repeat password"
+            value={formData.checkPassword}
+            onChange={onChange}
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="btn btn-success btn-lg md:w-[50%] w-[25%] my-5"
+          disabled={Object.values(formData).some((i: string) => i.trim().length < 1)}>
+          Register
+        </button>
       </form>
     </div>
   );
