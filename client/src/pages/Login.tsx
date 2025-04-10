@@ -25,9 +25,9 @@ const Login = () => {
   };
 
   return (
-    <div className="text-center min-w-5xl">
+    <div className="text-center w-full">
       <h1 className="text-4xl font-bold">Login</h1>
-      <hr className="my-5" />
+      <hr className="my-5 w-[80%] m-auto" />
       <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
         <input
           type="email"

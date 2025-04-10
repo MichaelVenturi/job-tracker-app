@@ -81,9 +81,9 @@ const Register = () => {
   };
 
   return (
-    <div className="text-center min-w-5xl">
+    <div className="text-center w-full">
       <h1 className="text-4xl font-bold">Register</h1>
-      <hr className="my-5" />
+      <hr className="my-5 w-[80%] m-auto" />
       <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
         <div className="flex md:flex-row flex-col w-[75%] my-5 gap-2 justify-center items-center">
           <input

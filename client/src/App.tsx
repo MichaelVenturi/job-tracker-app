@@ -14,7 +14,7 @@ const App = () => {
       <BrowserRouter>
         <div className="flex flex-col justify-start h-screen font-mono">
           <Navbar />
-          <main className="container grow-1 mx-auto px-3 pb-12 items-start flex justify-center">
+          <main className="container grow-1 mx-auto items-start flex justify-center">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
