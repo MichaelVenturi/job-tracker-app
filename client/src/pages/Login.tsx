@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch as useDispatch, useAppSelector as useSelector } from "../redux/store";
+import { authReset, login } from "../redux/auth/authSlice";
 import { toast } from "react-toastify";
 
 interface IFormData {
@@ -12,6 +15,18 @@ const Login = () => {
     password: "",
   });
 
+  const { user, isError, isLoading, isSuccess, message } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isError) toast.error(message);
+    if (isSuccess && user) navigate("/");
+
+    dispatch(authReset());
+  }, [dispatch, isError, isSuccess, message, navigate, user]);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -22,7 +37,12 @@ const Login = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
+    dispatch(login(formData));
   };
+
+  if (isLoading) {
+    return <h1>loading</h1>;
+  }
 
   return (
     <div className="text-center w-full">
