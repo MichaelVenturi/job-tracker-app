@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch as useDispatch, useAppSelector as useSelector } from "../redux/store";
 import { authReset, login } from "../redux/auth/authSlice";
 import { toast } from "react-toastify";
@@ -71,6 +71,9 @@ const Login = () => {
           Login
         </button>
       </form>
+      <Link to="/register" className="btn btn-ghost">
+        No account? Sign up here
+      </Link>
     </div>
   );
 };
