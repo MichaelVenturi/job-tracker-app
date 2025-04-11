@@ -12,9 +12,9 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <div className="flex flex-col justify-start h-screen font-mono">
+        <div className="flex flex-col h-screen font-mono">
           <Navbar />
-          <main className="container grow-1 mx-auto items-start flex justify-center">
+          <main className="container grow-1 mx-auto flex items-start">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
