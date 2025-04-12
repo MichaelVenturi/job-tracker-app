@@ -124,7 +124,7 @@ const NewApplication = () => {
           type="submit"
           className="btn btn-success btn-lg w-[50%] my-5"
           disabled={Object.entries(formData).some(([key, value]) => value.length < 1 && key !== "notes")}>
-          Login
+          Create entry
         </button>
       </form>
     </div>

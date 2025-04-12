@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAppSelector as useSelector, useAppDispatch as useDispatch } from "../redux/store";
 import { toast } from "react-toastify";
 import { appReset, getApplications } from "../redux/apps/appSlice";
+import AppItem from "../components/AppItem";
 
 const Applications = () => {
   const { apps, isError, isLoading, isSuccess, message } = useSelector((state) => state.apps);
@@ -29,7 +30,7 @@ const Applications = () => {
   return (
     <div>
       {apps.map((a) => (
-        <h1>{a.companyName}</h1>
+        <AppItem key={a._id} app={a} />
       ))}
     </div>
   );
