@@ -56,6 +56,7 @@ const Login = () => {
           className="input input-success input-lg my-5 md:w-[50%]"
           placeholder="email address"
           onChange={onChange}
+          value={formData.email}
           required
         />
         <input
@@ -65,6 +66,7 @@ const Login = () => {
           className="input input-success input-lg my-5 md:w-[50%]"
           placeholder="password"
           onChange={onChange}
+          value={formData.password}
           required
         />
         <button type="submit" className="btn btn-success btn-lg w-[50%] my-5" disabled={Object.values(formData).some((i: string) => i.length < 1)}>

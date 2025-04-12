@@ -4,8 +4,12 @@ import { IAuthState, IUser } from "../../types/stateTypes";
 import { CreateUserRequest, LoginUserRequest } from "../../types/apiTypes";
 import { errorHandler } from "../store";
 
+// get user from localstorage
+const localUser = localStorage.getItem("user");
+const user = localUser ? JSON.parse(localUser) : null;
+
 const initialState: IAuthState = {
-  user: null,
+  user,
   isLoading: false,
   isError: false,
   isSuccess: false,
