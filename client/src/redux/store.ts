@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlice";
+import appsReducer from "./apps/appSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, IRootState } from "../types/stateTypes";
 import { isAxiosError } from "axios";
@@ -7,6 +8,7 @@ import { isAxiosError } from "axios";
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    apps: appsReducer,
   },
 });
 

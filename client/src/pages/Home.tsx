@@ -15,10 +15,10 @@ const Home = () => {
       </p>
       <br />
       <div className="flex flex-col my-5 gap-5 justify-around items-center">
-        <Link to="/" className="btn btn-neutral w-[80%]">
+        <Link to="/application-list" className="btn btn-neutral w-[80%]">
           View my applications
         </Link>
-        <Link to="/" className="btn btn-success w-[80%]">
+        <Link to="/new-application" className="btn btn-success w-[80%]">
           Log a new application
         </Link>
       </div>

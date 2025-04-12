@@ -1,13 +1,7 @@
 import { Router } from "express";
 import { protect } from "../middleware/authMiddleware";
-import { validateParams } from "../middleware/ValidateParams";
-import {
-  getApplications,
-  createApplication,
-  getAppById,
-  updateApplication,
-  deleteApplication,
-} from "../controllers/applicationController";
+import { validateParams } from "../middleware/validateParams";
+import { getApplications, createApplication, getAppById, updateApplication, deleteApplication } from "../controllers/applicationController";
 
 // /api/apps
 const router = Router();

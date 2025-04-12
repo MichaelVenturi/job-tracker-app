@@ -16,7 +16,23 @@ export interface IUser {
   email: string;
   token: string;
 }
+export interface IApplication {
+  _id: string;
+  user: string;
+  jobTitle: string;
+  companyName: string;
+  link: string;
+  location: string;
+  status: string;
+  dateApplied: string;
+  updatedAt: string;
+  notes?: string;
+}
 
 export interface IAuthState extends IStateStatus {
   user: IUser | null;
+}
+
+export interface IApplicationState extends IStateStatus {
+  apps: IApplication[];
 }
