@@ -28,10 +28,24 @@ const Applications = () => {
   }
 
   return (
-    <div>
-      {apps.map((a) => (
-        <AppItem key={a._id} app={a} />
-      ))}
+    <div className="overflow-x-auto mx-10 rounded-box border border-success/50 w-full">
+      <table className="table table-fixed">
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Date Applied</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {apps.map((a) => (
+            <AppItem key={a._id} app={a} />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

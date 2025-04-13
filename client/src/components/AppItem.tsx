@@ -6,11 +6,14 @@ interface AppItemProps {
 
 const AppItem: React.FC<AppItemProps> = ({ app }) => {
   return (
-    <div className="flex flex-row">
-      <p>{app.jobTitle}</p>
-      <p>{app.companyName}</p>
-      <p>{app.location}</p>
-    </div>
+    <tr className=" hover:bg-base-300">
+      <th>{app.jobTitle}</th>
+      <th>{app.companyName}</th>
+      <th>{app.location}</th>
+      <th>{app.status}</th>
+      <th>{new Date(app.dateApplied).toLocaleDateString()}</th>
+      <th>{app.link}</th>
+    </tr>
   );
 };
 export default AppItem;
