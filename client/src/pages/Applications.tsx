@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { appReset, getApplications } from "../redux/apps/appSlice";
 import AppItem from "../components/AppItem";
 import { IApplication } from "../types/stateTypes";
-import { cursorTo } from "readline";
 
 type SortableFields = Pick<IApplication, "jobTitle" | "companyName" | "location" | "dateApplied" | "status">;
 type AppKey = keyof SortableFields;
@@ -30,24 +29,30 @@ const Applications = () => {
     }
   }, [apps.length, apps, dispatch, isError, isSuccess, message]);
 
-  const setSortDirection = (key: AppKey) => {
-    if (curKey && curKey === key) {
-      // if this isnt the first sort, and if we are sorting the same key we just sorted, sort the opposite way
-      setCurSortDir(curSortDir * -1);
-    } else {
-      setCurKey(key);
-      setCurSortDir(1);
-    }
-  };
-
   const filter = (e: React.MouseEvent<HTMLElement>) => {
     const field = e.currentTarget.id as AppKey;
-    setSortDirection(field);
 
+    let sortD = 1;
+    if (curKey && curKey === field) {
+      sortD = curSortDir * -1;
+    }
+    setCurKey(field);
+    setCurSortDir(sortD);
+    console.log(curSortDir, sortD);
     const sortedData = [...sortedApps].sort((a, b) => {
-      const valA = a[field]!.toLocaleLowerCase();
-      const valB = b[field]!.toLocaleLowerCase();
-      return valA!.localeCompare(valB!) * curSortDir;
+      let valA: string = a[field]!.toLocaleLowerCase();
+      let valB = b[field]!.toLocaleLowerCase();
+      if (field === "dateApplied") {
+        const dateA = Date.parse(valA);
+        const dateB = Date.parse(valB);
+        return (dateA - dateB) * sortD;
+      }
+      if (field === "status") {
+        // very cheeky solution since the rest of the status fields get sorted how I want them alphabetically
+        valA = valA === "offer" ? "".concat("a", valA) : valA;
+        valB = valB === "offer" ? "".concat("a", valB) : valB;
+      }
+      return valA!.localeCompare(valB!) * sortD;
     });
 
     setSortedApps(sortedData);
@@ -65,20 +70,20 @@ const Applications = () => {
       <table className="table table-fixed">
         <thead>
           <tr>
-            <th onClick={filter} id="jobTitle">
-              <span className="hover:cursor-pointer">Job Title</span>
+            <th onClick={filter} id="jobTitle" className="hover:cursor-pointer hover:bg-base-300">
+              Job Title
             </th>
-            <th onClick={filter} id="companyName">
-              <span className="hover:cursor-pointer">Company</span>
+            <th onClick={filter} id="companyName" className="hover:cursor-pointer hover:bg-base-300">
+              Company
             </th>
-            <th onClick={filter} id="location">
-              <span className="hover:cursor-pointer">Location</span>
+            <th onClick={filter} id="location" className="hover:cursor-pointer hover:bg-base-300">
+              Location
             </th>
-            <th onClick={filter} id="status">
-              <span className="hover:cursor-pointer">Status</span>
+            <th onClick={filter} id="status" className="hover:cursor-pointer hover:bg-base-300">
+              Status
             </th>
-            <th onClick={filter} id="dateApplied">
-              <span className="hover:cursor-pointer">Date Applied</span>
+            <th onClick={filter} id="dateApplied" className="hover:cursor-pointer hover:bg-base-300">
+              Date Applied
             </th>
             <th>Link</th>
           </tr>
