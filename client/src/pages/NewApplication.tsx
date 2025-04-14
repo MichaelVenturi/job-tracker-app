@@ -20,6 +20,7 @@ const NewApplication = () => {
     location: "",
     notes: "",
   });
+  const [validLink, setValidLink] = useState(true);
   const { apps, isLoading, isError, isSuccess, message } = useSelector((state) => state.apps);
 
   const dispatch = useDispatch();
@@ -43,9 +44,14 @@ const NewApplication = () => {
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isValidUrl(formData.link)) {
+      toast.error("invalid url");
+      return;
+    }
     if (apps.length === 0) {
       dispatch(getApplications());
     }
+
     const req = {
       jobTitle: formData.jobTitle,
       companyName: formData.companyName,
@@ -54,6 +60,19 @@ const NewApplication = () => {
       ...(formData.notes.trim().length > 0 && { notes: formData.notes }),
     };
     dispatch(createApplication(req));
+  };
+
+  const isValidUrl = (link: string): boolean => {
+    let url;
+    try {
+      url = new URL(link);
+    } catch (err: unknown) {
+      console.log(err);
+      setValidLink(false);
+      return false;
+    }
+    setValidLink(true);
+    return url.protocol === "http:" || url.protocol === "https:";
   };
 
   if (isLoading) {
@@ -104,7 +123,7 @@ const NewApplication = () => {
             type="text"
             id="link"
             name="link"
-            className="input input-success input-lg md:w-[50%]"
+            className={`input input-lg md:w-[50%] input-${validLink ? "success" : "error"}`}
             placeholder="link to job details"
             onChange={onChange}
             value={formData.link}

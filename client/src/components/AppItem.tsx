@@ -12,7 +12,11 @@ const AppItem: React.FC<AppItemProps> = ({ app }) => {
       <th>{app.location}</th>
       <th>{app.status}</th>
       <th>{new Date(app.dateApplied).toLocaleDateString()}</th>
-      <th>{app.link}</th>
+      <th>
+        <a href="https://google.com" target="_blank" rel="noreferrer">
+          To Job details
+        </a>
+      </th>
     </tr>
   );
 };
