@@ -42,6 +42,7 @@ const NewApplication = () => {
       [e.target.name]: e.target.value,
     }));
   };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isValidUrl(formData.link)) {

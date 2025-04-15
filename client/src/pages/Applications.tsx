@@ -8,6 +8,9 @@ import { IApplication } from "../types/stateTypes";
 type SortableFields = Pick<IApplication, "jobTitle" | "companyName" | "location" | "dateApplied" | "status">;
 type AppKey = keyof SortableFields;
 
+// this is the order of priority I want for multilevel sorting
+const allKeys: AppKey[] = ["status", "dateApplied", "companyName", "jobTitle", "location"];
+
 const Applications = () => {
   const { apps, isError, isLoading, isSuccess, message } = useSelector((state) => state.apps);
   const [sortedApps, setSortedApps] = useState(apps);
@@ -38,23 +41,32 @@ const Applications = () => {
     }
     setCurKey(field);
     setCurSortDir(sortD);
-    console.log(curSortDir, sortD);
-    const sortedData = [...sortedApps].sort((a, b) => {
-      let valA: string = a[field]!.toLocaleLowerCase();
-      let valB = b[field]!.toLocaleLowerCase();
-      if (field === "dateApplied") {
-        const dateA = Date.parse(valA);
-        const dateB = Date.parse(valB);
-        return (dateA - dateB) * sortD;
-      }
-      if (field === "status") {
-        // very cheeky solution since the rest of the status fields get sorted how I want them alphabetically
-        valA = valA === "offer" ? "".concat("a", valA) : valA;
-        valB = valB === "offer" ? "".concat("a", valB) : valB;
-      }
-      return valA!.localeCompare(valB!) * sortD;
-    });
 
+    const sortKeys: AppKey[] = [field, ...allKeys.filter((k) => k !== field)];
+
+    const sortedData = [...sortedApps].sort((a, b) => {
+      // tiebreaker sorting
+      for (const key of sortKeys) {
+        console.log("sorting by ", key);
+        let valA: string = a[key]!.toLocaleLowerCase();
+        let valB = b[key]!.toLocaleLowerCase();
+        let res = 0;
+        if (key === "dateApplied") {
+          const dateA = Date.parse(valA);
+          const dateB = Date.parse(valB);
+          res = (dateA - dateB) * sortD;
+          if (res !== 0) return res;
+        }
+        if (key === "status") {
+          // very cheeky solution since the rest of the status fields get sorted how I want them alphabetically
+          valA = valA === "offer" ? "".concat("a", valA) : valA;
+          valB = valB === "offer" ? "".concat("a", valB) : valB;
+        }
+        res = valA!.localeCompare(valB!) * sortD;
+        if (res !== 0) return res;
+      }
+      return 0; // all fields were equal, dont move anything
+    });
     setSortedApps(sortedData);
   };
 
@@ -66,8 +78,8 @@ const Applications = () => {
   }
 
   return (
-    <div className="overflow-x-auto mx-10 rounded-box border border-success/50 w-full">
-      <table className="table table-fixed">
+    <div className="overflow-hidden mx-10 rounded-box border border-success/50 w-full">
+      <table className="table table-auto">
         <thead>
           <tr>
             <th onClick={filter} id="jobTitle" className="hover:cursor-pointer hover:bg-base-300">
