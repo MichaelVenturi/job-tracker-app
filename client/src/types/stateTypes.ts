@@ -16,6 +16,9 @@ export interface IUser {
   email: string;
   token: string;
 }
+
+export type JobStatus = "Sent" | "Pending" | "Rejected" | "Offer";
+
 export interface IApplication {
   _id: string;
   user: string;
@@ -23,7 +26,7 @@ export interface IApplication {
   companyName: string;
   link: string;
   location: string;
-  status: string;
+  status: JobStatus;
   dateApplied: string;
   updatedAt: string;
   notes?: string;
@@ -35,4 +38,5 @@ export interface IAuthState extends IStateStatus {
 
 export interface IApplicationState extends IStateStatus {
   apps: IApplication[];
+  curApp: IApplication | null;
 }

@@ -4,7 +4,7 @@ enum Status {
   SENT = "Sent",
   REJECTED = "Rejected",
   OFFER = "Offer",
-  IN_PROGRESS = "In progress",
+  PENDING = "Pending",
 }
 interface IApplication extends Document<Types.ObjectId> {
   user: Types.ObjectId;

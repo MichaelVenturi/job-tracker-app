@@ -78,7 +78,7 @@ const Applications = () => {
   }
 
   return (
-    <div className="overflow-hidden mx-10 rounded-box border border-success/50 w-full">
+    <div className="overflow-scroll md:overflow-hidden mx-2 md:mx-10 rounded-box border border-success/50 w-full">
       <table className="table table-auto">
         <thead>
           <tr>

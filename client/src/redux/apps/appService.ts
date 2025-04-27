@@ -13,6 +13,16 @@ const getApplications = async (token: string) => {
   return response.data;
 };
 
+const getAppById = async (id: string, token: string) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(`${API_URL}/${id}`, config);
+  return response.data;
+};
+
 const createApplication = async (appData: CreateAppRequest, token: string) => {
   const config = {
     headers: {
@@ -25,6 +35,7 @@ const createApplication = async (appData: CreateAppRequest, token: string) => {
 
 const appService = {
   getApplications,
+  getAppById,
   createApplication,
 };
 export default appService;

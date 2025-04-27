@@ -6,6 +6,7 @@ import { errorHandler } from "../store";
 
 const initialState: IApplicationState = {
   apps: [],
+  curApp: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -16,6 +17,16 @@ export const getApplications = createAsyncThunk<IApplication[], void, { state: I
   try {
     const token = thunkAPI.getState().auth.user?.token ?? "";
     return await appService.getApplications(token);
+  } catch (err) {
+    const message = errorHandler(err);
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const getAppById = createAsyncThunk<IApplication, string, { state: IRootState }>("apps/getById", async (id, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token ?? "";
+    return await appService.getAppById(id, token);
   } catch (err) {
     const message = errorHandler(err);
     return thunkAPI.rejectWithValue(message);
@@ -55,11 +66,16 @@ const appSlice = createSlice({
         state.isLoading = false;
         state.apps.push(action.payload);
       })
-      .addMatcher(isAnyOf(getApplications.pending, createApplication.pending), (state) => {
+      .addCase(getAppById.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isLoading = false;
+        state.curApp = action.payload;
+      })
+      .addMatcher(isAnyOf(getApplications.pending, createApplication.pending, getAppById.pending), (state) => {
         state.isLoading = true;
       })
 
-      .addMatcher(isAnyOf(getApplications.rejected, createApplication.rejected), (state, action) => {
+      .addMatcher(isAnyOf(getApplications.rejected, createApplication.rejected, getAppById.rejected), (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload as string;
