@@ -1,4 +1,4 @@
-import { IApplication, JobStatus } from "../types/stateTypes";
+import { IApplication } from "../types/stateTypes";
 import { Link } from "react-router-dom";
 
 interface AppItemProps {
@@ -18,7 +18,9 @@ const AppItem: React.FC<AppItemProps> = ({ app }) => {
   return (
     <tr className="hover:bg-base-300">
       <th className="overflow-hidden overflow-ellipsis">
-        <Link to={`/application/${app._id}`}>{app.jobTitle}</Link>
+        <Link to={`/application/${app._id}`} state={{ app }}>
+          {app.jobTitle}
+        </Link>
       </th>
       <th className="overflow-hidden overflow-ellipsis">{app.companyName}</th>
       <th className="overflow-hidden overflow-ellipsis">{app.location}</th>

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppSelector as useSelector, useAppDispatch as useDispatch } from "../redux/store";
 import { appReset, getAppById } from "../redux/apps/appSlice";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ApplicationPage = () => {
@@ -9,6 +9,9 @@ const ApplicationPage = () => {
 
   const dispatch = useDispatch();
   const { id } = useParams();
+  const localApp = useLocation().state?.app;
+
+  const app = localApp ?? curApp;
 
   useEffect(() => {
     if (isSuccess) {
@@ -20,8 +23,10 @@ const ApplicationPage = () => {
       toast.error(message);
     }
 
-    dispatch(getAppById(id!));
-  }, [dispatch, id, isError, message]);
+    if (!localApp || localApp._id !== id) {
+      dispatch(getAppById(id!));
+    }
+  }, [dispatch, id, isError, localApp, message]);
 
   if (isLoading) {
     return <h1>loading</h1>;
@@ -29,6 +34,14 @@ const ApplicationPage = () => {
   if (isError) {
     return <h1>error</h1>;
   }
-  return <div>{curApp?.jobTitle}</div>;
+  return (
+    <div className="flex flex-col mx-20">
+      <Link to="/application-list" className="btn btn-success">
+        Go back
+      </Link>
+
+      {app.jobTitle}
+    </div>
+  );
 };
 export default ApplicationPage;
