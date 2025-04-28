@@ -47,7 +47,9 @@ const ApplicationPage = () => {
         <h3 className="badge badge-lg lg:badge-xl badge-info text-wrap h-fit text-center">
           at {app.companyName}, {app.location}
         </h3>
-        <StatusBadge status={app.status}>Application: </StatusBadge>
+        <StatusBadge status={app.status} large={true}>
+          Status:
+        </StatusBadge>
       </div>
 
       <div className="stats stats-vertical md:stats-horizontal shadow rounded-lg bg-base-200">
@@ -70,7 +72,7 @@ const ApplicationPage = () => {
         </div>
       </div>
       {app.notes ? (
-        <div className="stats shadow rounded-lg bg-base-200">
+        <div className="stats shadow rounded-lg bg-base-200 w-full">
           <div className="stat">
             <span className="stat-title text-accent">Additional notes</span>
             <span className="stat-value text-sm text-wrap">{app.notes}</span>
