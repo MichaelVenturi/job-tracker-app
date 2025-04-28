@@ -1,18 +1,10 @@
 import { IApplication } from "../types/stateTypes";
 import { Link } from "react-router-dom";
+import StatusBadge from "./StatusBadge";
 
 interface AppItemProps {
   app: IApplication;
 }
-
-const badges = {
-  Pending: "badge-warning",
-  Sent: "badge-ghost",
-  Rejected: "badge-error",
-  Offer: "badge-success",
-};
-
-type badgeKey = keyof typeof badges;
 
 const AppItem: React.FC<AppItemProps> = ({ app }) => {
   return (
@@ -25,7 +17,7 @@ const AppItem: React.FC<AppItemProps> = ({ app }) => {
       <th className="overflow-hidden overflow-ellipsis">{app.companyName}</th>
       <th className="overflow-hidden overflow-ellipsis">{app.location}</th>
       <th className="overflow-hidden overflow-ellipsis">
-        <span className={`badge ${badges[app.status as badgeKey]}`}>{app.status}</span>
+        <StatusBadge status={app.status} />
       </th>
       <th className="overflow-hidden overflow-ellipsis">{new Date(app.dateApplied).toLocaleDateString()}</th>
       <th className="relative">
