@@ -83,8 +83,8 @@ const NewApplication = () => {
     <div className="text-center w-full">
       <h1 className="md:text-3xl text-2xl font-bold">Log an application</h1>
       <hr className="my-5 w-[80%] m-auto" />
-      <form onSubmit={onSubmit} className="lg:flex flex-col items-center justify-center">
-        <div className="flex lg:flex-row flex-col lg:w-[75%] my-5 gap-2 justify-center items-center">
+      <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
+        <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-5 gap-2 justify-center items-center">
           <input
             type="text"
             id="jobTitle"
@@ -108,7 +108,7 @@ const NewApplication = () => {
             autoComplete="off"
           />
         </div>
-        <div className="flex lg:flex-row flex-col lg:w-[75%] my-5 gap-2 justify-center items-center">
+        <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-5 gap-2 justify-center items-center">
           <input
             type="text"
             id="location"
@@ -135,14 +135,14 @@ const NewApplication = () => {
         <textarea
           id="notes"
           name="notes"
-          className="textarea textarea-success w-[50%]"
+          className="textarea textarea-success mt-5 md:w-[50%]"
           placeholder="write any additional notes here"
           onChange={onChange}
           value={formData.notes}
         />
         <button
           type="submit"
-          className="btn btn-success btn-lg w-[50%] my-5"
+          className="btn btn-success btn-lg md:w-[50%] my-5"
           disabled={Object.entries(formData).some(([key, value]) => value.length < 1 && key !== "notes")}>
           Create entry
         </button>

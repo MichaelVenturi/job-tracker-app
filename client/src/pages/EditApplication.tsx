@@ -36,11 +36,13 @@ const EditApplication = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      console.log("ueh2");
       dispatch(appReset());
     }
   }, [dispatch, isSuccess]);
 
   useEffect(() => {
+    console.log("ueh");
     if (isError) {
       toast.error(message);
     }
@@ -49,6 +51,9 @@ const EditApplication = () => {
     } else {
       dispatch(setCurApp(localApp));
     }
+  }, [dispatch, id, isError, localApp, message]);
+
+  useEffect(() => {
     setFormData({
       jobTitle: curApp?.jobTitle ?? "",
       companyName: curApp?.companyName ?? "",
@@ -57,7 +62,7 @@ const EditApplication = () => {
       status: curApp?.status ?? "Sent",
       notes: curApp?.notes ?? "",
     });
-  }, [curApp, dispatch, id, isError, isSuccess, localApp, message]);
+  }, [curApp]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prevState) => ({
@@ -106,66 +111,91 @@ const EditApplication = () => {
     <div className="text-center w-full">
       <h1 className="md:text-3xl text-2xl font-bold">Edit application details</h1>
       <hr className="my-5 w-[80%] m-auto" />
-      <form onSubmit={onSubmit} className="lg:flex flex-col items-center justify-center">
-        <div className="flex lg:flex-row flex-col lg:w-[75%] my-5 gap-2 justify-center items-center">
-          <input
-            type="text"
-            id="jobTitle"
-            name="jobTitle"
-            className="input input-success input-lg md:w-[50%]"
-            placeholder="position title"
+      <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
+        <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-2.5 gap-2 justify-center items-center">
+          <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+            <label htmlFor="jobTitle" className="text-neutral-400">
+              Job title
+            </label>
+            <input
+              type="text"
+              id="jobTitle"
+              name="jobTitle"
+              className="input input-success input-lg w-full"
+              placeholder="position title"
+              onChange={onChange}
+              value={formData.jobTitle}
+              required
+              autoComplete="off"
+            />
+          </div>
+          <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+            <label htmlFor="companyName" className="text-neutral-400">
+              Company name
+            </label>
+            <input
+              type="text"
+              id="companyName"
+              name="companyName"
+              className="input input-success input-lg w-full"
+              placeholder="name of company"
+              onChange={onChange}
+              value={formData.companyName}
+              required
+              autoComplete="off"
+            />
+          </div>
+        </div>
+        <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-2.5 gap-2 justify-center items-center">
+          <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+            <label htmlFor="location" className="text-neutral-400">
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              className="input input-success input-lg w-full"
+              placeholder="location"
+              onChange={onChange}
+              value={formData.location}
+              required
+              autoComplete="off"
+            />
+          </div>
+          <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+            <label htmlFor="link" className="text-neutral-400">
+              Link to details
+            </label>
+            <input
+              type="text"
+              id="link"
+              name="link"
+              className={`input input-lg md:w-full input-${validLink ? "success" : "error"}`}
+              placeholder="link to job details"
+              onChange={onChange}
+              value={formData.link}
+              required
+              autoComplete="off"
+            />
+          </div>
+        </div>
+        <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col mt-5 md:items-start">
+          <label htmlFor="notes" className="text-neutral-400">
+            additional notes
+          </label>
+          <textarea
+            id="notes"
+            name="notes"
+            className="textarea textarea-success w-full"
+            placeholder="write any additional notes here"
             onChange={onChange}
-            value={formData.jobTitle}
-            required
-            autoComplete="off"
-          />
-          <input
-            type="text"
-            id="companyName"
-            name="companyName"
-            className="input input-success input-lg md:w-[50%]"
-            placeholder="name of company"
-            onChange={onChange}
-            value={formData.companyName}
-            required
-            autoComplete="off"
+            value={formData.notes}
           />
         </div>
-        <div className="flex lg:flex-row flex-col lg:w-[75%] my-5 gap-2 justify-center items-center">
-          <input
-            type="text"
-            id="location"
-            name="location"
-            className="input input-success input-lg md:w-[50%]"
-            placeholder="location"
-            onChange={onChange}
-            value={formData.location}
-            required
-            autoComplete="off"
-          />
-          <input
-            type="text"
-            id="link"
-            name="link"
-            className={`input input-lg md:w-[50%] input-${validLink ? "success" : "error"}`}
-            placeholder="link to job details"
-            onChange={onChange}
-            value={formData.link}
-            required
-            autoComplete="off"
-          />
-        </div>
-        <textarea
-          id="notes"
-          name="notes"
-          className="textarea textarea-success w-[50%]"
-          placeholder="write any additional notes here"
-          onChange={onChange}
-          value={formData.notes}
-        />
         <button
           type="submit"
-          className="btn btn-success btn-lg w-[50%] my-5"
+          className="btn btn-success btn-lg md:w-[50%] my-5"
           disabled={Object.entries(formData).some(([key, value]) => value.length < 1 && key !== "notes")}>
           Submit Changes
         </button>
