@@ -15,3 +15,15 @@ export interface CreateAppRequest {
   location: string;
   notes?: string;
 }
+
+export interface UpdateAppRequest {
+  id: string;
+  body: {
+    jobTitle?: string;
+    companyName?: string;
+    link?: string;
+    location?: string;
+    status?: string;
+    notes?: string;
+  };
+}

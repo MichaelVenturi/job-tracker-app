@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CreateAppRequest } from "../../types/apiTypes";
+import { CreateAppRequest, UpdateAppRequest } from "../../types/apiTypes";
 
 const API_URL = "/api/apps";
 
@@ -33,9 +33,21 @@ const createApplication = async (appData: CreateAppRequest, token: string) => {
   return response.data;
 };
 
+const updateApplication = async (appData: UpdateAppRequest, token: string) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const { id, body } = appData;
+  const response = await axios.put(`${API_URL}/${id}`, body, config);
+  return response.data;
+};
+
 const appService = {
   getApplications,
   getAppById,
   createApplication,
+  updateApplication,
 };
 export default appService;

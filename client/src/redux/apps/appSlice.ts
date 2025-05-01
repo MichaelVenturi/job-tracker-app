@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, isAnyOf } from "@reduxjs/toolkit";
 import { IApplicationState, IApplication, IRootState } from "../../types/stateTypes";
 import appService from "./appService";
-import { CreateAppRequest } from "../../types/apiTypes";
+import { CreateAppRequest, UpdateAppRequest } from "../../types/apiTypes";
 import { errorHandler } from "../store";
 
 const initialState: IApplicationState = {
@@ -43,6 +43,16 @@ export const createApplication = createAsyncThunk<IApplication, CreateAppRequest
   }
 });
 
+export const updateApplication = createAsyncThunk<IApplication, UpdateAppRequest, { state: IRootState }>("apps/update", async (appData, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token ?? "";
+    return await appService.updateApplication(appData, token);
+  } catch (err) {
+    const message = errorHandler(err);
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 const appSlice = createSlice({
   name: "apps",
   initialState,
@@ -74,11 +84,18 @@ const appSlice = createSlice({
         state.isLoading = false;
         state.curApp = action.payload;
       })
-      .addMatcher(isAnyOf(getApplications.pending, createApplication.pending, getAppById.pending), (state) => {
+      .addCase(updateApplication.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isLoading = false;
+        const index = state.apps.findIndex((app) => app._id === action.payload._id);
+        if (index > -1) state.apps.splice(index, 1, action.payload);
+        else state.apps.push(action.payload);
+      })
+      .addMatcher(isAnyOf(getApplications.pending, createApplication.pending, getAppById.pending, updateApplication.pending), (state) => {
         state.isLoading = true;
       })
 
-      .addMatcher(isAnyOf(getApplications.rejected, createApplication.rejected, getAppById.rejected), (state, action) => {
+      .addMatcher(isAnyOf(getApplications.rejected, createApplication.rejected, getAppById.rejected, updateApplication.rejected), (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload as string;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAppSelector as useSelector, useAppDispatch as useDispatch } from "../redux/store";
-import { appReset, createApplication, getAppById, getApplications, setCurApp } from "../redux/apps/appSlice";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { appReset, getAppById, getApplications, setCurApp, updateApplication } from "../redux/apps/appSlice";
+import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 interface IFormData {
@@ -36,22 +36,30 @@ const EditApplication = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log("ueh2");
+      console.log("reset status");
+      toast.success("Application details updated");
       dispatch(appReset());
+      navigate(`/application/${id}`);
     }
-  }, [dispatch, isSuccess]);
+  }, [dispatch, isSuccess, navigate, id]);
 
   useEffect(() => {
-    console.log("ueh");
     if (isError) {
       toast.error(message);
     }
+    if (curApp && curApp._id === id) {
+      console.log("cur app accurate");
+      return;
+    }
+
     if (!localApp || localApp._id !== id) {
+      console.log("fetching cur app");
       dispatch(getAppById(id!));
     } else {
+      console.log("setting local to state");
       dispatch(setCurApp(localApp));
     }
-  }, [dispatch, id, isError, localApp, message]);
+  }, [curApp, dispatch, id, isError, localApp, message]);
 
   useEffect(() => {
     setFormData({
@@ -82,13 +90,17 @@ const EditApplication = () => {
     }
 
     const req = {
-      jobTitle: formData.jobTitle,
-      companyName: formData.companyName,
-      location: formData.location,
-      link: formData.link,
-      ...(formData.notes.trim().length > 0 && { notes: formData.notes }),
+      id: id!,
+      body: {
+        jobTitle: formData.jobTitle,
+        companyName: formData.companyName,
+        location: formData.location,
+        link: formData.link,
+        status: formData.status,
+        ...(formData.notes.trim().length > 0 && { notes: formData.notes }),
+      },
     };
-    dispatch(createApplication(req));
+    dispatch(updateApplication(req));
   };
 
   const isValidUrl = (link: string): boolean => {
@@ -113,7 +125,7 @@ const EditApplication = () => {
       <hr className="my-5 w-[80%] m-auto" />
       <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
         <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-2.5 gap-2 justify-center items-center">
-          <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
             <label htmlFor="jobTitle" className="text-neutral-400">
               Job title
             </label>
@@ -129,7 +141,7 @@ const EditApplication = () => {
               autoComplete="off"
             />
           </div>
-          <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
             <label htmlFor="companyName" className="text-neutral-400">
               Company name
             </label>
@@ -147,7 +159,7 @@ const EditApplication = () => {
           </div>
         </div>
         <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-2.5 gap-2 justify-center items-center">
-          <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
             <label htmlFor="location" className="text-neutral-400">
               Location
             </label>
@@ -163,7 +175,7 @@ const EditApplication = () => {
               autoComplete="off"
             />
           </div>
-          <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
             <label htmlFor="link" className="text-neutral-400">
               Link to details
             </label>
@@ -171,7 +183,7 @@ const EditApplication = () => {
               type="text"
               id="link"
               name="link"
-              className={`input input-lg md:w-full input-${validLink ? "success" : "error"}`}
+              className={`input input-lg w-full ${validLink ? "input-success" : "input-error"}`}
               placeholder="link to job details"
               onChange={onChange}
               value={formData.link}
@@ -180,7 +192,7 @@ const EditApplication = () => {
             />
           </div>
         </div>
-        <div className="w-full md:w-[50%] px-10 md:px-0  flex flex-col mt-5 md:items-start">
+        <div className="w-full md:w-[75%] lg:w-[50%]  px-10 md:px-0  flex flex-col mt-5 md:items-start">
           <label htmlFor="notes" className="text-neutral-400">
             additional notes
           </label>
@@ -193,12 +205,17 @@ const EditApplication = () => {
             value={formData.notes}
           />
         </div>
-        <button
-          type="submit"
-          className="btn btn-success btn-lg md:w-[50%] my-5"
-          disabled={Object.entries(formData).some(([key, value]) => value.length < 1 && key !== "notes")}>
-          Submit Changes
-        </button>
+        <div className="my-5 flex w-[75%] lg:w-[50%] gap-4">
+          <Link to={`/application/${id}`} className="btn btn-neutral btn-lg w-full flex-1">
+            Cancel
+          </Link>
+          <button
+            type="submit"
+            className="btn btn-success btn-lg w-full flex-1"
+            disabled={Object.entries(formData).some(([key, value]) => value.length < 1 && key !== "notes")}>
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
