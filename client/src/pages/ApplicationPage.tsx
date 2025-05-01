@@ -55,17 +55,17 @@ const ApplicationPage = () => {
       </div>
 
       <div className="stats stats-vertical md:stats-horizontal shadow rounded-lg bg-base-200">
-        <div className="stat">
+        <div className="stat max-md:px-20">
           <span className="stat-title text-accent">Date applied</span>
           <span className="stat-value text-2xl">{new Date(app.dateApplied).toLocaleDateString()}</span>
           <span className="stat-desc">{new Date(app.dateApplied).toLocaleTimeString()}</span>
         </div>
-        <div className="stat">
+        <div className="stat max-md:px-20">
           <span className="stat-title text-accent">Last updated</span>
           <span className="stat-value text-2xl">{new Date(app.updatedAt).toLocaleDateString()}</span>
           <span className="stat-desc">{new Date(app.updatedAt).toLocaleTimeString()}</span>
         </div>
-        <div className="stat">
+        <div className="stat max-md:px-20">
           <span className="stat-title text-accent">Link to details</span>
           <a href={app.link} target="_blank" rel="noreferrer" className="stat-value text-2xl hover:text-success">
             Click here
@@ -74,7 +74,7 @@ const ApplicationPage = () => {
         </div>
       </div>
       {app.notes ? (
-        <div className="stats shadow rounded-lg bg-base-200 w-full">
+        <div className="stats shadow rounded-lg bg-base-200">
           <div className="stat">
             <span className="stat-title text-accent">Additional notes</span>
             <span className="stat-value text-sm text-wrap">{app.notes}</span>

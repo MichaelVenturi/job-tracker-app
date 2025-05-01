@@ -125,7 +125,7 @@ const EditApplication = () => {
       <hr className="my-5 w-[80%] m-auto" />
       <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
         <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-2.5 gap-2 justify-center items-center">
-          <div className="w-full md:w-[75%] lg:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10  flex flex-col md:items-start">
             <label htmlFor="jobTitle" className="text-neutral-400">
               Job title
             </label>
@@ -141,7 +141,7 @@ const EditApplication = () => {
               autoComplete="off"
             />
           </div>
-          <div className="w-full md:w-[75%] lg:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10  flex flex-col md:items-start">
             <label htmlFor="companyName" className="text-neutral-400">
               Company name
             </label>
@@ -159,7 +159,7 @@ const EditApplication = () => {
           </div>
         </div>
         <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-2.5 gap-2 justify-center items-center">
-          <div className="w-full md:w-[75%] lg:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10 flex flex-col md:items-start">
             <label htmlFor="location" className="text-neutral-400">
               Location
             </label>
@@ -175,7 +175,7 @@ const EditApplication = () => {
               autoComplete="off"
             />
           </div>
-          <div className="w-full md:w-[75%] lg:w-[50%] px-10 md:px-0  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10 flex flex-col md:items-start">
             <label htmlFor="link" className="text-neutral-400">
               Link to details
             </label>
@@ -192,7 +192,7 @@ const EditApplication = () => {
             />
           </div>
         </div>
-        <div className="w-full md:w-[75%] lg:w-[50%]  px-10 md:px-0  flex flex-col mt-5 md:items-start">
+        <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10 flex flex-col mt-5 md:items-start">
           <label htmlFor="notes" className="text-neutral-400">
             additional notes
           </label>
