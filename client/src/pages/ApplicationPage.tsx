@@ -16,15 +16,17 @@ const ApplicationPage = () => {
   const app: IApplication = localApp ?? curApp;
 
   useEffect(() => {
+    console.log("ueh2");
     if (isSuccess) {
       dispatch(appReset());
     }
   }, [dispatch, isSuccess]);
+
   useEffect(() => {
+    console.log("ueh");
     if (isError) {
       toast.error(message);
     }
-
     if (!localApp || localApp._id !== id) {
       dispatch(getAppById(id!));
     }
@@ -79,7 +81,9 @@ const ApplicationPage = () => {
           </div>
         </div>
       ) : null}
-      <button className="btn btn-neutral btn-wide">Edit</button>
+      <Link to={`/edit-application/${app._id}`} state={{ app }} className="btn btn-neutral btn-wide">
+        Edit
+      </Link>
     </div>
   );
 };

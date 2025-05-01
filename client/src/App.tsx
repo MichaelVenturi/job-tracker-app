@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import Applications from "./pages/Applications";
 import NewApplication from "./pages/NewApplication";
+import EditApplication from "./pages/EditApplication";
 import ApplicationPage from "./pages/ApplicationPage";
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
               <Route element={<PrivateRoute redirectPath="/login" />}>
                 <Route path="/application-list" element={<Applications />} />
                 <Route path="/new-application" element={<NewApplication />} />
+                <Route path="/edit-application/:id" element={<EditApplication />} />
                 <Route path="/application/:id" element={<ApplicationPage />} />
               </Route>
               <Route path="/*" element={<NotFound />} />

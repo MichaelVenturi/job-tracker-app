@@ -53,6 +53,9 @@ const appSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
     },
+    setCurApp: (state, action) => {
+      state.curApp = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -83,5 +86,5 @@ const appSlice = createSlice({
   },
 });
 
-export const { appReset } = appSlice.actions;
+export const { appReset, setCurApp } = appSlice.actions;
 export default appSlice.reducer;

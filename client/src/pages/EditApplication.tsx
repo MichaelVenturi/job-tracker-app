@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAppSelector as useSelector, useAppDispatch as useDispatch } from "../redux/store";
-import { appReset, createApplication, getApplications } from "../redux/apps/appSlice";
-import { useNavigate } from "react-router-dom";
+import { appReset, createApplication, getAppById, getApplications, setCurApp } from "../redux/apps/appSlice";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 interface IFormData {
@@ -9,32 +9,55 @@ interface IFormData {
   companyName: string;
   link: string;
   location: string;
+  status: string;
   notes: string;
 }
 
-const NewApplication = () => {
+type EditAppParams = {
+  id: string;
+};
+
+const EditApplication = () => {
   const [formData, setFormData] = useState<IFormData>({
     jobTitle: "",
     companyName: "",
     link: "",
     location: "",
+    status: "Sent",
     notes: "",
   });
   const [validLink, setValidLink] = useState(true);
-  const { apps, isLoading, isError, isSuccess, message } = useSelector((state) => state.apps);
+  const { apps, curApp, isLoading, isError, isSuccess, message } = useSelector((state) => state.apps);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams<EditAppParams>();
+  const localApp = useLocation().state?.app;
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(appReset());
+    }
+  }, [dispatch, isSuccess]);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
-    if (isSuccess) {
-      navigate("/application-list");
+    if (!localApp || localApp._id !== id) {
+      dispatch(getAppById(id!));
+    } else {
+      dispatch(setCurApp(localApp));
     }
-    dispatch(appReset());
-  }, [dispatch, isError, isSuccess, message, navigate]);
+    setFormData({
+      jobTitle: curApp?.jobTitle ?? "",
+      companyName: curApp?.companyName ?? "",
+      link: curApp?.link ?? "",
+      location: curApp?.location ?? "",
+      status: curApp?.status ?? "Sent",
+      notes: curApp?.notes ?? "",
+    });
+  }, [curApp, dispatch, id, isError, isSuccess, localApp, message]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prevState) => ({
@@ -81,7 +104,7 @@ const NewApplication = () => {
   }
   return (
     <div className="text-center w-full">
-      <h1 className="md:text-3xl text-2xl font-bold">Log an application</h1>
+      <h1 className="md:text-3xl text-2xl font-bold">Edit application details</h1>
       <hr className="my-5 w-[80%] m-auto" />
       <form onSubmit={onSubmit} className="lg:flex flex-col items-center justify-center">
         <div className="flex lg:flex-row flex-col lg:w-[75%] my-5 gap-2 justify-center items-center">
@@ -144,10 +167,10 @@ const NewApplication = () => {
           type="submit"
           className="btn btn-success btn-lg w-[50%] my-5"
           disabled={Object.entries(formData).some(([key, value]) => value.length < 1 && key !== "notes")}>
-          Create entry
+          Submit Changes
         </button>
       </form>
     </div>
   );
 };
-export default NewApplication;
+export default EditApplication;
