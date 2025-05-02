@@ -39,7 +39,7 @@ const ApplicationPage = () => {
     return <h1>error</h1>;
   }
   return (
-    <div className="flex flex-col mx-auto px-10 md:px-20 mb-10 gap-5 w-full items-center justify-center md:items-start">
+    <div className="flex flex-col mx-auto px-10 md:px-20 xl:pl-50 mb-10 gap-5 w-full items-center justify-center md:items-start">
       <Link to="/application-list" className="btn btn-success">
         Go back
       </Link>

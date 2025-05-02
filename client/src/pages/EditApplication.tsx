@@ -72,7 +72,7 @@ const EditApplication = () => {
     });
   }, [curApp]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -124,7 +124,7 @@ const EditApplication = () => {
       <h1 className="md:text-3xl text-2xl font-bold">Edit application details</h1>
       <hr className="my-5 w-[80%] m-auto" />
       <form onSubmit={onSubmit} className="flex flex-col items-center justify-center">
-        <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-2.5 gap-2 justify-center items-center">
+        <div className="flex lg:flex-row flex-col w-full lg:w-[75%] xl:w-[65%] my-2.5 gap-2 justify-center items-center">
           <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10  flex flex-col md:items-start">
             <label htmlFor="jobTitle" className="text-neutral-400">
               Job title
@@ -141,7 +141,7 @@ const EditApplication = () => {
               autoComplete="off"
             />
           </div>
-          <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10  flex flex-col md:items-start">
+          <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10 flex flex-col md:items-start">
             <label htmlFor="companyName" className="text-neutral-400">
               Company name
             </label>
@@ -158,7 +158,7 @@ const EditApplication = () => {
             />
           </div>
         </div>
-        <div className="flex lg:flex-row flex-col w-full lg:w-[75%] my-2.5 gap-2 justify-center items-center">
+        <div className="flex lg:flex-row flex-col w-full lg:w-[75%] xl:w-[65%] my-2.5 gap-2 justify-center items-center">
           <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10 flex flex-col md:items-start">
             <label htmlFor="location" className="text-neutral-400">
               Location
@@ -191,8 +191,19 @@ const EditApplication = () => {
               autoComplete="off"
             />
           </div>
+          <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10 flex flex-col items-center md:items-start">
+            <label htmlFor="status" className="text-neutral-400">
+              Status
+            </label>
+            <select name="status" id="status" className="select select-lg select-success w-full" onChange={onChange} value={formData.status} required>
+              <option value={"Sent"}>Sent</option>
+              <option value={"Pending"}>Pending</option>
+              <option value={"Rejected"}>Rejected</option>
+              <option value={"Offer"}>Offer</option>
+            </select>
+          </div>
         </div>
-        <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10 flex flex-col mt-5 md:items-start">
+        <div className="w-full md:w-[75%] lg:w-[50%] max-md:px-10 flex flex-col md:items-start">
           <label htmlFor="notes" className="text-neutral-400">
             additional notes
           </label>
