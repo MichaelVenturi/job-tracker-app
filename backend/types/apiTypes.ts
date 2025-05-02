@@ -18,6 +18,7 @@ export interface CreateAppRequest extends Request {
     companyName: string;
     link: string;
     location: string;
+    status: string;
     notes?: string;
   };
 }

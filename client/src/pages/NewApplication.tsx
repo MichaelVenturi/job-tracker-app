@@ -60,6 +60,7 @@ const NewApplication = () => {
       companyName: formData.companyName,
       location: formData.location,
       link: formData.link,
+      status: formData.status,
       ...(formData.notes.trim().length > 0 && { notes: formData.notes }),
     };
     dispatch(createApplication(req));
