@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { appReset, getApplications } from "../redux/apps/appSlice";
 import AppItem from "../components/AppItem";
 import { IApplication } from "../types/stateTypes";
+import Searchbar from "../components/Searchbar";
 
 type SortableFields = Pick<IApplication, "jobTitle" | "companyName" | "location" | "dateApplied" | "status">;
 type AppKey = keyof SortableFields;
@@ -78,34 +79,37 @@ const Applications = () => {
   }
 
   return (
-    <div className="overflow-scroll md:overflow-hidden mx-2 md:mx-10 rounded-box border border-success/50 w-full">
-      <table className="table table-auto">
-        <thead>
-          <tr>
-            <th onClick={filter} id="jobTitle" className="hover:cursor-pointer hover:bg-base-300">
-              Job Title
-            </th>
-            <th onClick={filter} id="companyName" className="hover:cursor-pointer hover:bg-base-300">
-              Company
-            </th>
-            <th onClick={filter} id="location" className="hover:cursor-pointer hover:bg-base-300">
-              Location
-            </th>
-            <th onClick={filter} id="status" className="hover:cursor-pointer hover:bg-base-300">
-              Status
-            </th>
-            <th onClick={filter} id="dateApplied" className="hover:cursor-pointer hover:bg-base-300">
-              Date Applied
-            </th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedApps.map((a) => (
-            <AppItem key={a._id} app={a} />
-          ))}
-        </tbody>
-      </table>
+    <div className="w-full max-w-full px-2 mb-2 xl:mx-10">
+      <Searchbar />
+      <div className="overflow-x-auto rounded-box border border-success/50">
+        <table className="table table-auto">
+          <thead>
+            <tr>
+              <th onClick={filter} id="jobTitle" className="hover:cursor-pointer hover:bg-base-300">
+                Job Title
+              </th>
+              <th onClick={filter} id="companyName" className="hover:cursor-pointer hover:bg-base-300">
+                Company
+              </th>
+              <th onClick={filter} id="location" className="hover:cursor-pointer hover:bg-base-300">
+                Location
+              </th>
+              <th onClick={filter} id="status" className="hover:cursor-pointer hover:bg-base-300">
+                Status
+              </th>
+              <th onClick={filter} id="dateApplied" className="hover:cursor-pointer hover:bg-base-300">
+                Date Applied
+              </th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedApps.map((a) => (
+              <AppItem key={a._id} app={a} />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
