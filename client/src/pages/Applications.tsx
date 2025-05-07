@@ -17,6 +17,7 @@ const Applications = () => {
   const [sortedApps, setSortedApps] = useState(apps);
   const [curSortDir, setCurSortDir] = useState(1);
   const [curKey, setCurKey] = useState<AppKey | null>(null);
+  const [query, setQuery] = useState("");
 
   const dispatch = useDispatch();
 
@@ -71,6 +72,25 @@ const Applications = () => {
     setSortedApps(sortedData);
   };
 
+  const onSearch = (text: string) => {
+    if (text.length > 3) {
+      setQuery(text);
+    } else {
+      setQuery("");
+    }
+  };
+
+  const matchesQuery = (app: IApplication) => {
+    const nonqueryKey = (key: string) => key === "_id" || key === "user" || key === "link" || key === "notes" || key === "updatedAt";
+    for (const [key, val] of Object.entries(app)) {
+      // dont compare for certain keys
+      if (nonqueryKey(key)) continue;
+      const compareVal = val.toString().toLocaleLowerCase();
+      if (compareVal.includes(query.toLocaleLowerCase())) return true;
+    }
+    return false;
+  };
+
   if (isLoading) {
     return <h1>loading</h1>;
   }
@@ -80,7 +100,7 @@ const Applications = () => {
 
   return (
     <div className="w-full max-w-full px-2 mb-2 xl:mx-10">
-      <Searchbar />
+      <Searchbar onSearch={onSearch} />
       <div className="overflow-x-auto rounded-box border border-success/50">
         <table className="table table-auto">
           <thead>
@@ -104,9 +124,9 @@ const Applications = () => {
             </tr>
           </thead>
           <tbody>
-            {sortedApps.map((a) => (
-              <AppItem key={a._id} app={a} />
-            ))}
+            {sortedApps.map((a) => {
+              if (matchesQuery(a)) return <AppItem key={a._id} app={a} />;
+            })}
           </tbody>
         </table>
       </div>
