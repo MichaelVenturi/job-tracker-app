@@ -68,7 +68,6 @@ const Applications = () => {
     const sortedData = [...sortedApps].sort((a, b) => {
       // tiebreaker sorting
       for (const key of sortKeys) {
-        console.log("sorting by ", key);
         let valA: string = a[key]!.toLocaleLowerCase();
         let valB = b[key]!.toLocaleLowerCase();
         let res = 0;

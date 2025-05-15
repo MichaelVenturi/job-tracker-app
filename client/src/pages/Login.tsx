@@ -36,7 +36,6 @@ const Login = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
     dispatch(login(formData));
   };
 

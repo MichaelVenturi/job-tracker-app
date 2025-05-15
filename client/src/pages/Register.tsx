@@ -84,7 +84,6 @@ const Register = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log(formData);
     if (validate()) {
       const userData = {
         name: formData.username,

@@ -21,9 +21,6 @@ export const useAutoLogout = () => {
       return;
     }
 
-    console.log(timeout);
-    console.log(typeof timeout);
-
     const logoutTimer = setTimeout(() => {
       dispatch(logout());
       localStorage.removeItem("user");
