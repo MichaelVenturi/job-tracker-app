@@ -23,7 +23,8 @@ const customStyles: Styles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     position: "relative",
-    color: "black",
+    color: "white",
+    background: "black",
   },
 };
 

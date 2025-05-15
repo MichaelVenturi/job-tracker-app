@@ -3,10 +3,20 @@ import authService from "./authService";
 import { IAuthState, IUser } from "../../types/stateTypes";
 import { CreateUserRequest, LoginUserRequest } from "../../types/apiTypes";
 import { errorHandler } from "../store";
+import { jwtDecode } from "jwt-decode";
 
 // get user from localstorage
 const localUser = localStorage.getItem("user");
-const user = localUser ? JSON.parse(localUser) : null;
+let user = null;
+if (localUser) {
+  const token = JSON.parse(localUser).token;
+  const decoded = jwtDecode(token);
+  if (decoded.exp && Date.now() < decoded.exp * 1000) {
+    user = JSON.parse(localUser);
+  } else {
+    localStorage.removeItem("user");
+  }
+}
 
 const initialState: IAuthState = {
   user,

@@ -12,8 +12,10 @@ import Applications from "./pages/Applications";
 import NewApplication from "./pages/NewApplication";
 import EditApplication from "./pages/EditApplication";
 import ApplicationPage from "./pages/ApplicationPage";
+import { useAutoLogout } from "./hooks/useAutoLogout";
 
 const App = () => {
+  useAutoLogout();
   return (
     <>
       <BrowserRouter>
