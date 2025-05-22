@@ -5,7 +5,6 @@ import { appReset, getApplications } from "../redux/apps/appSlice";
 import AppItem from "../components/AppItem";
 import { IApplication } from "../types/stateTypes";
 import Searchbar from "../components/Searchbar";
-import Modal, { Styles } from "react-modal";
 
 type SortableFields = Pick<IApplication, "jobTitle" | "companyName" | "location" | "dateApplied" | "status">;
 type AppKey = keyof SortableFields;
@@ -13,30 +12,13 @@ type AppKey = keyof SortableFields;
 // this is the order of priority I want for multilevel sorting
 const allKeys: AppKey[] = ["status", "dateApplied", "companyName", "jobTitle", "location"];
 
-const customStyles: Styles = {
-  content: {
-    width: "600px",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    position: "relative",
-    color: "white",
-    background: "black",
-  },
-};
-
-Modal.setAppElement("#root");
-
 const Applications = () => {
   const { apps, isError, isLoading, isSuccess, message } = useSelector((state) => state.apps);
   const [sortedApps, setSortedApps] = useState(apps);
   const [curSortDir, setCurSortDir] = useState(1);
   const [curKey, setCurKey] = useState<AppKey | null>(null);
   const [query, setQuery] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
+  //const [modalOpen, setModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -109,13 +91,6 @@ const Applications = () => {
     return false;
   };
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
   if (isLoading) {
     return <h1>loading</h1>;
   }
@@ -126,9 +101,6 @@ const Applications = () => {
   return (
     <div className="w-full max-w-full px-2 mb-2 xl:mx-10">
       <Searchbar onSearch={onSearch} />
-      <button className="btn" onClick={openModal}>
-        modal
-      </button>
       <div className="overflow-x-auto rounded-box border border-success/50">
         <table className="table table-auto">
           <thead>
@@ -158,10 +130,6 @@ const Applications = () => {
           </tbody>
         </table>
       </div>
-      <Modal isOpen={modalOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Filters">
-        <h2>Filters</h2>
-        <p>test</p>
-      </Modal>
     </div>
   );
 };

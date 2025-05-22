@@ -36,7 +36,6 @@ const EditApplication = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log("reset status");
       toast.success("Application details updated");
       dispatch(appReset());
       navigate(`/application/${id}`);
@@ -48,15 +47,12 @@ const EditApplication = () => {
       toast.error(message);
     }
     if (curApp && curApp._id === id) {
-      console.log("cur app accurate");
       return;
     }
 
     if (!localApp || localApp._id !== id) {
-      console.log("fetching cur app");
       dispatch(getAppById(id!));
     } else {
-      console.log("setting local to state");
       dispatch(setCurApp(localApp));
     }
   }, [curApp, dispatch, id, isError, localApp, message]);
