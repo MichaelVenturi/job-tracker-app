@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import cors from "cors";
 import { config } from "dotenv";
 import connectDB from "./config/db";
@@ -20,6 +21,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/users", userRoutes);
 app.use("/api/apps", applicationRoutes);
 
+// serve frontend
+if (process.env.NODE_ENV === "production") {
+  // set build folder as static
+  app.use(express.static(path.join(import.meta.dirname, "../client/dist")));
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(import.meta.dirname, "../client/dist/index.html"));
+  });
+} else {
+  app.get("/", (_req, res) => {
+    res.status(201).json({ message: "Welcome to the Job Track app" });
+  });
+}
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));
