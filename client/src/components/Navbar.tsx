@@ -41,8 +41,14 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        <div onClick={() => setIsOpen(!isOpen)} className="grow-1 p-2 flex justify-end md:hidden">
-          <div className="group grid justify-center gap-1.5">
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className="grow-1 p-2 flex justify-end md:hidden"
+          id="menubutton"
+          aria-haspopup="true"
+          aria-controls="menu"
+          aria-label="Navigation Menu">
+          <div className="group grid justify-center gap-1.5" id="menu" role="menu" aria-labelledby="menubutton">
             <span className={`h-0.5 w-6 rounded-full bg-primary-content transition ${isOpen && "rotate-45 translate-y-2"}`}></span>
             <span className={`h-0.5 w-6 rounded-full bg-primary-content transition ${isOpen && "scale-x-0"}`}></span>
             <span className={`h-0.5 w-6 rounded-full bg-primary-content transition ${isOpen && "-rotate-45 -translate-y-2"}`}></span>

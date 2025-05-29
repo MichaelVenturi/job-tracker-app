@@ -22,10 +22,13 @@ const AppItem: React.FC<AppItemProps> = ({ app }) => {
       <td className="overflow-hidden overflow-ellipsis">{new Date(app.dateApplied).toLocaleDateString()}</td>
       <td className="relative">
         <div className="group flex flex-col">
-          <a href="https://google.com" target="_blank" rel="noreferrer" className="underline">
+          <a href="https://google.com" target="_blank" rel="noreferrer" className="underline" aria-describedby="fullLink">
             To Job details
           </a>
-          <span className="fixed ml-4 mt-6 z-50 badge badge-ghost badge-xs opacity-0 transition-all group-hover:opacity-100 delay-150">
+          <span
+            className="fixed ml-4 mt-6 z-50 badge badge-ghost badge-xs opacity-0 transition-all group-hover:opacity-100 delay-150"
+            role="tooltip"
+            id="fullLink">
             {app.link}
           </span>
         </div>

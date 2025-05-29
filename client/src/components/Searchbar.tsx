@@ -12,7 +12,7 @@ const Searchbar: React.FC<ISearchbarProps> = ({ onSearch }) => {
     onSearch(e.target.value);
   };
   return (
-    <div>
+    <search>
       <input
         type="text"
         id="search"
@@ -22,7 +22,7 @@ const Searchbar: React.FC<ISearchbarProps> = ({ onSearch }) => {
         value={searchText}
         onChange={onChange}
       />
-    </div>
+    </search>
   );
 };
 export default Searchbar;
